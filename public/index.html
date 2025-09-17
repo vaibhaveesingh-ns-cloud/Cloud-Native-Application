@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelBoard - Share and organize your images effortlessly</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-camera"></i>
+                <span>PixelBoard</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#" class="nav-link" data-page="home">Home</a>
+                <a href="#" class="nav-link" data-page="explore">Explore</a>
+                <a href="#" class="nav-link" data-page="create" id="createLink" style="display: none;">Create</a>
+                <div class="nav-auth" id="navAuth">
+                    <button class="btn btn-outline" id="loginBtn">Log In</button>
+                    <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+                </div>
+                <div class="nav-user" id="navUser" style="display: none;">
+                    <button class="btn btn-primary" id="uploadBtn">
+                        <i class="fas fa-plus"></i> Upload
+                    </button>
+                    <div class="user-menu">
+                        <button class="user-avatar" id="userAvatar">
+                            <i class="fas fa-user"></i>
+                        </button>
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="#" id="myPhotosLink">My Photos</a>
+                            <a href="#" id="myAlbumsLink">My Albums</a>
+                            <a href="#" id="logoutBtn">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Landing Page -->
+        <div class="page" id="landingPage">
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="hero-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h1>PixelBoard</h1>
+                    <p>Share and organize your images effortlessly.</p>
+                    <button class="btn btn-large btn-primary" id="heroLoginBtn">Log In</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auth Modal -->
+        <div class="modal" id="authModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="authTitle">Welcome to PixelBoard</h2>
+                    <button class="modal-close" id="closeAuthModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="authSubtitle">Sign in or create an account to start sharing.</p>
+                    
+                    <form id="authForm">
+                        <div class="form-group" id="usernameGroup" style="display: none;">
+                            <input type="text" id="username" placeholder="Username" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="Username or Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="password" placeholder="Password" required>
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox">
+                                <input type="checkbox" id="rememberMe">
+                                <span class="checkmark"></span>
+                                Remember me
+                            </label>
+                            <a href="#" class="forgot-password">Forgot your password?</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" id="authSubmitBtn">Log In</button>
+                    </form>
+                    
+                    <div class="auth-switch">
+                        <span id="authSwitchText">Don't have an account?</span>
+                        <button class="btn-link" id="authSwitchBtn">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="page" id="dashboardPage" style="display: none;">
+            <div class="dashboard-header">
+                <h1>All Photos</h1>
+                <div class="dashboard-actions">
+                    <div class="filter-tabs">
+                        <button class="tab-btn active" data-filter="all">All</button>
+                        <button class="tab-btn" data-filter="album1">Album 1</button>
+                        <button class="tab-btn" data-filter="album2">Album 2</button>
+                    </div>
+                    <button class="btn btn-primary" id="dashboardUploadBtn">
+                        <i class="fas fa-upload"></i> Upload
+                    </button>
+                </div>
+            </div>
+            <div class="photo-grid" id="photoGrid">
+                <!-- Photos will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Upload Modal -->
+        <div class="modal" id="uploadModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Upload a photo</h2>
+                    <button class="modal-close" id="closeUploadModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Share your moments with the world.</p>
+                    
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <p><button type="button" class="btn-link" id="uploadFileBtn">Upload a file</button> or drag and drop</p>
+                            <small>PNG, JPG, GIF up to 10MB</small>
+                            <input type="file" id="photoFile" accept="image/*" style="display: none;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="photoTitle">Title</label>
+                            <input type="text" id="photoTitle" placeholder="e.g., A beautiful sunset" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="photoDescription">Description (optional)</label>
+                            <textarea id="photoDescription" placeholder="Add a description to tell more about your photo..." rows="3"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full" id="uploadSubmitBtn">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Album Modal -->
+        <div class="modal" id="createAlbumModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Create a New Album</h2>
+                    <button class="modal-close" id="closeCreateAlbumModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Organize your photos into a beautiful collection.</p>
+                    
+                    <form id="createAlbumForm">
+                        <div class="form-group">
+                            <label for="albumTitle">Album Title</label>
+                            <input type="text" id="albumTitle" placeholder="e.g., Summer Vacation 2023" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Select Photos</label>
+                            <p class="form-help">Choose from your previously uploaded photos to add to this album.</p>
+                            <div class="photo-selection" id="photoSelection">
+                                <!-- User's photos will be loaded here for selection -->
+                            </div>
+                        </div>
+                        
+                        <div class="modal-actions">
+                            <button type="button" class="btn btn-outline" id="cancelCreateAlbum">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Create Album</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Photos Page -->
+        <div class="page" id="myPhotosPage" style="display: none;">
+            <div class="page-header">
+                <h1>My Photos</h1>
+                <button class="btn btn-primary" id="myPhotosUploadBtn">
+                    <i class="fas fa-plus"></i> Upload Photo
+                </button>
+            </div>
+            <div class="photo-grid" id="myPhotoGrid">
+                <!-- User's photos will be loaded here -->
+            </div>
+        </div>
+
+        <!-- My Albums Page -->
+        <div class="page" id="myAlbumsPage" style="display: none;">
+            <div class="page-header">
+                <h1>My Albums</h1>
+                <button class="btn btn-primary" id="createAlbumBtn">
+                    <i class="fas fa-plus"></i> Create Album
+                </button>
+            </div>
+            <div class="albums-grid" id="myAlbumsGrid">
+                <!-- User's albums will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Explore Page -->
+        <div class="page" id="explorePage" style="display: none;">
+            <div class="page-header">
+                <h1>Explore</h1>
+                <p>Discover amazing photos from the community</p>
+            </div>
+            <div class="photo-grid" id="explorePhotoGrid">
+                <!-- All photos will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
